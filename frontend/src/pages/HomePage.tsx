@@ -8,7 +8,7 @@ const HomePage: React.FC = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
-      <main>
+      <main className="anim-page-enter">
         <HeroSection />
         <FeaturesSection />
       </main>

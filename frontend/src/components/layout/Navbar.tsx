@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -25,21 +26,21 @@ const Navbar = () => {
         <nav className="flex justify-between items-center h-16 lg:h-20 transition-all duration-300" aria-label="Main Navigation">
           
           {/* Logo */}
-          <a href="/" className="text-xl lg:text-2xl font-bold text-[#001734] tracking-tight">
+          <Link to="/" className="text-xl lg:text-2xl font-bold text-[#001734] tracking-tight">
             NextStep
-          </a>
+          </Link>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8">
-            <a href="/login" className="text-[#001734] font-medium text-[15px] hover:opacity-70 transition-opacity">
+            <Link to="/login" className="text-[#001734] font-medium text-[15px] hover:opacity-70 transition-opacity">
               Log In
-            </a>
-            <a 
-              href="/upload" 
+            </Link>
+            <Link 
+              to="/upload" 
               className="bg-gradient-to-r from-[#001734] to-[#002C59] text-white px-6 py-2.5 rounded-lg font-semibold text-[14px] hover:opacity-90 transition-all shadow-md"
             >
               Upload CV
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -61,13 +62,13 @@ const Navbar = () => {
         {/* Mobile Drawer */}
         <div className={`md:hidden overflow-hidden transition-all duration-300 ${isMenuOpen ? 'max-h-64 pb-8' : 'max-h-0'}`}>
           <div className="flex flex-col items-end gap-5 pt-4">
-            <a href="/login" className="text-[#001734] font-medium text-base px-4 py-2 hover:bg-gray-50 rounded-lg transition-colors w-full text-right">
+            <Link to="/login" className="text-[#001734] font-medium text-base px-4 py-2 hover:bg-gray-50 rounded-lg transition-colors w-full text-right">
               Log In
-            </a>
+            </Link>
             <div className="px-4 w-full flex justify-end">
-              <a href="/upload" className="w-full max-w-[200px] bg-gradient-to-r from-[#001734] to-[#002C59] text-white py-3.5 rounded-xl font-bold text-center shadow-lg hover:shadow-[#00173430] transition-all active:scale-95">
+              <Link to="/upload" className="w-full max-w-[200px] bg-gradient-to-r from-[#001734] to-[#002C59] text-white py-3.5 rounded-xl font-bold text-center shadow-lg hover:shadow-[#00173430] transition-all active:scale-95">
                 Upload CV
-              </a>
+              </Link>
             </div>
           </div>
         </div>

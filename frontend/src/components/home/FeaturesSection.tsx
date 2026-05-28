@@ -1,7 +1,8 @@
+import { Link } from 'react-router-dom';
 
 const FeaturesSection = () => {
   return (
-    <section id="metodologi" className="w-full py-20 bg-[#F8FAFC] scroll-mt-24 lg:scroll-mt-32">
+    <section id="metodologi" className="w-full py-20 bg-white scroll-mt-24 lg:scroll-mt-32">
       <div className="content-container">
         {/* Section Header */}
         <div className="mb-10">
@@ -9,7 +10,7 @@ const FeaturesSection = () => {
             Dirancang untuk
           </h2>
           <p className="text-[#495057] text-[15px] leading-relaxed max-w-[700px]">
-            Maksimalkan Potensi Karier Anda. Melalui analisis CV dan data pasar yang adaptif,
+            Maksimalkan Potensi Karier Anda. Melalui analisis CV dan tren pasar kerja yang adaptif,
             kami memastikan setiap peluang kerja yang direkomendasikan benar-benar sesuai
             dengan keahlian Anda.
           </p>
@@ -17,7 +18,7 @@ const FeaturesSection = () => {
 
         {/* Bento Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
+
           {/* Card 1: Pemetaan Berbasis Analisis (Spans 2 columns) */}
           <div className="md:col-span-2 bg-[#F1F5F9] rounded-[24px] p-6 lg:p-8 transition-transform duration-300 hover:scale-[1.01]">
             <div className="mb-5">
@@ -96,12 +97,12 @@ const FeaturesSection = () => {
                 Log in / Daftar akun mu sekarang
               </p>
             </div>
-            <a 
-              href="/login"
+            <Link
+              to="/login"
               className="bg-white text-[#001734] px-8 py-3.5 rounded-lg font-bold text-[15px] hover:bg-gray-50 hover:-translate-y-1 hover:shadow-lg active:translate-y-0 transition-all duration-300 flex-shrink-0"
             >
               Log in / Daftar
-            </a>
+            </Link>
           </div>
 
         </div>
