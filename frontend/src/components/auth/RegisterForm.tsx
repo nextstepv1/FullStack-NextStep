@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useLanguage } from '../../context/LanguageContext'
 
 export interface RegisterFormData {
   fullName: string
@@ -21,6 +22,7 @@ interface FormErrors {
 }
 
 const RegisterForm = ({ onSubmit, isLoading, switchToLogin }: RegisterFormProps) => {
+  const { language } = useLanguage()
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -30,27 +32,41 @@ const RegisterForm = ({ onSubmit, isLoading, switchToLogin }: RegisterFormProps)
   const [touched, setTouched] = useState(false)
 
   const validateFullName = (value: string) => {
-    if (!value.trim()) return 'Nama lengkap wajib diisi.'
+    if (!value.trim()) {
+      return language === 'id' ? 'Nama lengkap wajib diisi.' : 'Full name is required.'
+    }
     return ''
   }
 
   const validateEmail = (value: string) => {
     const trimmed = value.trim()
-    if (!trimmed) return 'Email wajib diisi.'
+    if (!trimmed) {
+      return language === 'id' ? 'Email wajib diisi.' : 'Email is required.'
+    }
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-    if (!emailRegex.test(trimmed)) return 'Format email tidak valid.'
+    if (!emailRegex.test(trimmed)) {
+      return language === 'id' ? 'Format email tidak valid.' : 'Invalid email format.'
+    }
     return ''
   }
 
   const validatePassword = (value: string) => {
-    if (!value) return 'Password wajib diisi.'
-    if (value.length < 8) return 'Password minimal 8 karakter.'
+    if (!value) {
+      return language === 'id' ? 'Password wajib diisi.' : 'Password is required.'
+    }
+    if (value.length < 8) {
+      return language === 'id' ? 'Password minimal 8 karakter.' : 'Password must be at least 8 characters.'
+    }
     return ''
   }
 
   const validateConfirmPassword = (value: string, pass: string) => {
-    if (!value) return 'Konfirmasi password wajib diisi.'
-    if (value !== pass) return 'Password tidak cocok.'
+    if (!value) {
+      return language === 'id' ? 'Konfirmasi password wajib diisi.' : 'Confirm password is required.'
+    }
+    if (value !== pass) {
+      return language === 'id' ? 'Password tidak cocok.' : 'Passwords do not match.'
+    }
     return ''
   }
 
@@ -95,13 +111,13 @@ const RegisterForm = ({ onSubmit, isLoading, switchToLogin }: RegisterFormProps)
       {/* Full Name Field */}
       <div>
         <label htmlFor="reg-name" className="block text-[13px] font-semibold text-[#001734] mb-1.5">
-          Nama Lengkap
+          {language === 'id' ? 'Nama Lengkap' : 'Full Name'}
         </label>
         <input
           id="reg-name"
           type="text"
           autoComplete="name"
-          placeholder="Contoh: Mohammad Dimas Al Fateh"
+          placeholder={language === 'id' ? 'Jokowi Widodo' : 'e.g. Joko Widodo'}
           value={fullName}
           onChange={(e) => {
             setFullName(e.target.value)
@@ -127,7 +143,7 @@ const RegisterForm = ({ onSubmit, isLoading, switchToLogin }: RegisterFormProps)
           id="reg-email"
           type="email"
           autoComplete="email"
-          placeholder="mdimasalfateh@gmail.com"
+          placeholder="name@email.com"
           value={email}
           onChange={(e) => {
             setEmail(e.target.value)
@@ -192,7 +208,7 @@ const RegisterForm = ({ onSubmit, isLoading, switchToLogin }: RegisterFormProps)
       {/* Confirm Password Field */}
       <div>
         <label htmlFor="reg-confirm-password" className="block text-[13px] font-semibold text-[#001734] mb-1.5">
-          Confirm Password
+          {language === 'id' ? 'Konfirmasi Password' : 'Confirm Password'}
         </label>
         <div className="relative">
           <input
@@ -236,16 +252,16 @@ const RegisterForm = ({ onSubmit, isLoading, switchToLogin }: RegisterFormProps)
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
-            Memproses...
+            {language === 'id' ? 'Memproses...' : 'Processing...'}
           </span>
         ) : (
-          'Daftar'
+          language === 'id' ? 'Daftar' : 'Register'
         )}
       </button>
 
       {/* Login Link */}
       <p className="text-center text-[14px] text-[#495057] mt-4">
-        Sudah punya akun?{' '}
+        {language === 'id' ? 'Sudah punya akun? ' : 'Already have an account? '}
         {switchToLogin ? (
           <button
             type="button"

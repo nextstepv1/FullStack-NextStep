@@ -354,6 +354,22 @@ export const PixelBlast: React.FC<PixelBlastProps> = ({
   const visibilityRef = useRef({ visible: true });
   const speedRef = useRef(speed);
 
+  // Monitor visibility to pause animation offscreen
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el || !autoPauseOffscreen) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        visibilityRef.current.visible = entry.isIntersecting;
+      },
+      { threshold: 0 }
+    );
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+    };
+  }, [autoPauseOffscreen]);
+
   const threeRef = useRef<any>(null);
   const prevConfigRef = useRef<any>(null);
   useEffect(() => {

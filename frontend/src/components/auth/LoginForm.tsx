@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useLanguage } from '../../context/LanguageContext'
 
 // Tipe data yang dikirim saat form berhasil disubmit
 export interface LoginFormData {
@@ -19,6 +20,7 @@ interface FormErrors {
 }
 
 const LoginForm = ({ onSubmit, isLoading, switchToRegister }: LoginFormProps) => {
+  const { language } = useLanguage()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -28,16 +30,24 @@ const LoginForm = ({ onSubmit, isLoading, switchToRegister }: LoginFormProps) =>
   // Validasi email format
   const validateEmail = (value: string): string => {
     const trimmed = value.trim()
-    if (!trimmed) return 'Email wajib diisi.'
+    if (!trimmed) {
+      return language === 'id' ? 'Email wajib diisi.' : 'Email is required.'
+    }
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-    if (!emailRegex.test(trimmed)) return 'Format email tidak valid.'
+    if (!emailRegex.test(trimmed)) {
+      return language === 'id' ? 'Format email tidak valid.' : 'Invalid email format.'
+    }
     return ''
   }
 
   // Validasi password
   const validatePassword = (value: string): string => {
-    if (!value) return 'Password wajib diisi.'
-    if (value.length < 8) return 'Password minimal 8 karakter.'
+    if (!value) {
+      return language === 'id' ? 'Password wajib diisi.' : 'Password is required.'
+    }
+    if (value.length < 8) {
+      return language === 'id' ? 'Password minimal 8 karakter.' : 'Password must be at least 8 characters.'
+    }
     return ''
   }
 
@@ -78,7 +88,7 @@ const LoginForm = ({ onSubmit, isLoading, switchToRegister }: LoginFormProps) =>
           htmlFor="login-email"
           className="block text-[14px] font-semibold text-[#001734] mb-2"
         >
-          Email Address
+          {language === 'id' ? 'Alamat Email' : 'Email Address'}
         </label>
         <input
           id="login-email"
@@ -122,7 +132,7 @@ const LoginForm = ({ onSubmit, isLoading, switchToRegister }: LoginFormProps) =>
             to="/forgot-password"
             className="text-[13px] font-medium text-[#001734] hover:text-[#002C59] transition-colors"
           >
-            Lupa Password?
+            {language === 'id' ? 'Lupa Password?' : 'Forgot Password?'}
           </Link>
         </div>
         <div className="relative">
@@ -195,30 +205,30 @@ const LoginForm = ({ onSubmit, isLoading, switchToRegister }: LoginFormProps) =>
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
-            Memproses...
+            {language === 'id' ? 'Memproses...' : 'Processing...'}
           </span>
         ) : (
-          'Login'
+          language === 'id' ? 'Masuk' : 'Login'
         )}
       </button>
 
       {/* Register Link */}
       <p className="text-center text-[14px] text-[#495057]">
-        Belum punya akun?{' '}
+        {language === 'id' ? 'Belum punya akun? ' : "Don't have an account? "}
         {switchToRegister ? (
           <button
             type="button"
             onClick={switchToRegister}
             className="font-bold text-[#001734] hover:text-[#002C59] transition-colors"
           >
-            Daftar sekarang
+            {language === 'id' ? 'Daftar sekarang' : 'Register now'}
           </button>
         ) : (
           <Link
             to="/register"
             className="font-bold text-[#001734] hover:text-[#002C59] transition-colors"
           >
-            Daftar sekarang
+            {language === 'id' ? 'Daftar sekarang' : 'Register now'}
           </Link>
         )}
       </p>

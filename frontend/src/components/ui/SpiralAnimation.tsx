@@ -44,7 +44,7 @@ class AnimationController {
     private readonly cameraTravelDistance = 3400
     private readonly startDotYOffset = 28
     public readonly viewZoom = 100
-    private readonly numberOfStars = 4000
+    private readonly numberOfStars = 8500
     private readonly trailLength = 100
     
     // Theme colors

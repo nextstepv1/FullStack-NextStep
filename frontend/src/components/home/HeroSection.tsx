@@ -1,7 +1,10 @@
-import heroImage from '../../assets/home-main-page.png';
+import heroImage from '../../assets/home-main-page.webp';
 import { PixelBlast } from '../ui/PixelBlast';
+import { useLanguage } from '../../context/LanguageContext';
 
 const HeroSection = () => {
+  const { t } = useLanguage();
+
   return (
     <section className="w-full min-h-[85vh] flex items-center py-12 lg:py-20 overflow-hidden relative">
       {/* PixelBlast Background Full Width */}
@@ -41,19 +44,19 @@ const HeroSection = () => {
           <div className="inline-flex items-center gap-2 bg-[#E9ECEF] rounded-full px-3 py-1.5 lg:py-1 mb-8 hover:bg-[#E2E6EA] transition-colors cursor-default pointer-events-auto">
             <span className="w-1.5 h-1.5 bg-[#001734] rounded-full anim-pulse-glow"></span>
             <span className="text-[12px] lg:text-[11px] font-semibold text-[#495057]">
-              Memperkenalkan Platfrom Digital
+              {t.heroBadge}
             </span>
           </div>
 
           {/* Heading */}
           <h1 className="text-[40px] sm:text-[48px] lg:text-[58px] font-bold text-[#001734] leading-[1.1] mb-6 pointer-events-auto inline-block">
-            Future-ready work <br />
-            & Economy
+            {t.heroHeadingLine1} <br />
+            {t.heroHeadingLine2}
           </h1>
 
           {/* Description */}
           <p className="text-[#495057] text-[16px] lg:text-[15px] leading-relaxed mb-8 lg:mb-10 max-w-[500px] pointer-events-auto">
-            <span className="font-bold text-[#001734]">NextStep:</span> Jalur cerdas menuju karier masa depan anda. “ Platfrom Rekomendasi Pekerjaan dan Adaptif Berbasis Analisis CV/Data dan Tren Pasar Kerja”
+            <span className="font-bold text-[#001734]">NextStep:</span> {t.heroDescriptionText}
           </p>
 
           {/* CTA Button - Single Button as per new design */}
@@ -79,7 +82,7 @@ const HeroSection = () => {
               }}
               className="group bg-gradient-to-r from-[#001734] to-[#002C59] text-white px-8 lg:px-10 py-3.5 rounded-lg font-bold text-[16px] lg:text-[15px] flex items-center gap-3 transition-all duration-300 shadow-lg shadow-[#00173426] hover:opacity-95 hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(0,23,52,0.2)] active:translate-y-0"
             >
-              Lihat Metodologi
+              {t.heroCta}
               <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
@@ -95,7 +98,7 @@ const HeroSection = () => {
             <div className="rounded-2xl overflow-hidden shadow-xl border border-gray-100 aspect-[3.2/4] transition-transform duration-500 group-hover:scale-[1.02]">
               <img
                 src={heroImage}
-                alt="Work analysis"
+                alt={t.heroFloatingAlt}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -109,8 +112,8 @@ const HeroSection = () => {
                   </svg>
                 </div>
                 <div>
-                  <p className="text-[13px] font-bold text-[#001734]">Tren Pekerjaan 2026</p>
-                  <p className="text-[10px] text-[#6C757D]">AI & Machine Learning</p>
+                  <p className="text-[13px] font-bold text-[#001734]">{t.heroFloatingTitle}</p>
+                  <p className="text-[10px] text-[#6C757D]">{t.heroFloatingSubtitle}</p>
                 </div>
               </div>
               <div className="w-full bg-[#E9ECEF] rounded-full h-1.5 overflow-hidden">

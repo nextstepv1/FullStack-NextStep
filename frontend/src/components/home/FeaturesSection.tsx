@@ -1,18 +1,19 @@
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../../context/LanguageContext';
 
 const FeaturesSection = () => {
+  const { t } = useLanguage();
+
   return (
     <section id="metodologi" className="w-full py-20 bg-white scroll-mt-24 lg:scroll-mt-32">
       <div className="content-container">
         {/* Section Header */}
         <div className="mb-10">
           <h2 className="text-[28px] md:text-[34px] font-bold text-[#001734] mb-3">
-            Dirancang untuk
+            {t.featuresHeading}
           </h2>
           <p className="text-[#495057] text-[15px] leading-relaxed max-w-[700px]">
-            Maksimalkan Potensi Karier Anda. Melalui analisis CV dan tren pasar kerja yang adaptif,
-            kami memastikan setiap peluang kerja yang direkomendasikan benar-benar sesuai
-            dengan keahlian Anda.
+            {t.featuresSubheading}
           </p>
         </div>
 
@@ -30,16 +31,13 @@ const FeaturesSection = () => {
               </svg>
             </div>
             <h3 className="text-[20px] font-bold text-[#001734] mb-3">
-              Pemetaan Berbasis Analisis CV Anda
+              {t.card1Title}
             </h3>
             <p className="text-[#495057] text-[13.5px] leading-relaxed mb-3">
-              Kami memetakan keterampilan Anda terhadap permintaan industri, mengidentifikasi
-              kesenjangan dan peluang yang tepat untuk mempercepat perjalanan Anda menuju
-              kepemimpinan.
+              {t.card1Desc1}
             </p>
             <p className="text-[#495057] text-[13.5px] leading-relaxed">
-              Dengan algoritma pembelajaran mesin, sistem kami terus diperbarui seiring
-              perubahan tren pasar kerja di Indonesia dan global.
+              {t.card1Desc2}
             </p>
           </div>
 
@@ -52,20 +50,17 @@ const FeaturesSection = () => {
               </svg>
             </div>
             <h3 className="text-[18px] font-bold text-[#001734] mb-3">
-              Diagnostik Keahlian
+              {t.card2Title}
             </h3>
             <p className="text-[#495057] text-[13.5px] leading-relaxed flex-grow mb-6">
-              Upload CV Anda untuk mendapatkan
-              diagnostik instan dari profil profesional Anda
-              dibandingkan dengan tolok ukur industri
-              terkemuka.
+              {t.card2Desc}
             </p>
-            <a href="#" className="inline-flex items-center text-[13px] font-bold text-[#001734] hover:opacity-70 transition-opacity">
-              Learn more
+            <Link to="/upload" className="inline-flex items-center text-[13px] font-bold text-[#001734] hover:opacity-70 transition-opacity">
+              {t.card2Link}
               <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
-            </a>
+            </Link>
           </div>
 
           {/* Card 3: Premium Opportunities (Spans 1 column) */}
@@ -78,12 +73,10 @@ const FeaturesSection = () => {
               </svg>
             </div>
             <h3 className="text-[18px] font-bold text-[#001734] mb-3">
-              Premium Opportunities
+              {t.card3Title}
             </h3>
             <p className="text-[#495057] text-[13.5px] leading-relaxed">
-              Access curated roles that are historically
-              difficult to find on public job boards, matched
-              specifically to your trajectory.
+              {t.card3Desc}
             </p>
           </div>
 
@@ -91,17 +84,17 @@ const FeaturesSection = () => {
           <div className="md:col-span-2 bg-gradient-to-r from-[#001734] to-[#002C59] rounded-[24px] p-6 lg:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 transition-transform duration-300 hover:scale-[1.01] shadow-lg shadow-[#00173426]">
             <div>
               <h3 className="text-[24px] md:text-[28px] font-bold text-white mb-2">
-                Buka Potensi Penuh CV-mu!
+                {t.card4Title}
               </h3>
               <p className="text-[#8BA3C0] text-[14px]">
-                Log in / Daftar akun mu sekarang
+                {t.card4Desc}
               </p>
             </div>
             <Link
               to="/login"
               className="bg-white text-[#001734] px-8 py-3.5 rounded-lg font-bold text-[15px] hover:bg-gray-50 hover:-translate-y-1 hover:shadow-lg active:translate-y-0 transition-all duration-300 flex-shrink-0"
             >
-              Log in / Daftar
+              {t.card4Cta}
             </Link>
           </div>
 

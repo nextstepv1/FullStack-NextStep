@@ -5,10 +5,12 @@ import RegisterForm from '../../components/auth/RegisterForm'
 import type { LoginFormData } from '../../components/auth/LoginForm'
 import type { RegisterFormData } from '../../components/auth/RegisterForm'
 import loginBg from '../../assets/login/login/daftar-page.png'
+import { useLanguage } from '../../context/LanguageContext'
 
 const AuthPage = () => {
   const location = useLocation()
   const navigate = useNavigate()
+  const { language, toggleLanguage } = useLanguage()
   const [isRegister, setIsRegister] = useState(location.pathname === '/register')
   const [isAnimating, setIsAnimating] = useState(false)
   const [isLoginLoading, setIsLoginLoading] = useState(false)
@@ -102,22 +104,41 @@ const AuthPage = () => {
           <div className="relative z-10 flex flex-col flex-1 justify-between w-full p-6 pt-6 pb-12 sm:p-8 sm:pb-14">
             {/* Header */}
             <div className="flex items-center justify-between">
-              <Link
-                to={mobileContentRegister ? "/login" : "/"}
-                onClick={(e) => {
-                  if (mobileContentRegister) {
-                    e.preventDefault()
-                    switchMode(false)
-                  }
-                }}
-                className="flex items-center gap-1.5 text-white/80 hover:text-white transition-colors group"
-                aria-label="Kembali"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:-translate-x-0.5">
-                  <path d="m15 18-6-6 6-6" />
-                </svg>
-                <span className="text-[13px] font-medium">Kembali</span>
-              </Link>
+              {/* Left: Kembali + Language Toggle */}
+              <div className="flex items-center gap-4">
+                <Link
+                  to={mobileContentRegister ? "/login" : "/"}
+                  onClick={(e) => {
+                    if (mobileContentRegister) {
+                      e.preventDefault()
+                      switchMode(false)
+                    }
+                  }}
+                  className="flex items-center gap-1.5 text-white/80 hover:text-white transition-colors group"
+                  aria-label="Kembali"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:-translate-x-0.5">
+                    <path d="m15 18-6-6 6-6" />
+                  </svg>
+                  <span className="text-[13px] font-medium">{language === 'id' ? 'Kembali' : 'Back'}</span>
+                </Link>
+
+                {/* Language toggle — mobile */}
+                <button
+                  onClick={toggleLanguage}
+                  className="flex items-center gap-1.5 text-white/70 hover:text-white transition-all"
+                  aria-label="Toggle language"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="2" y1="12" x2="22" y2="12" />
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                  </svg>
+                  <span className="text-[12px] font-bold uppercase tracking-widest">{language}</span>
+                </button>
+              </div>
+
+              {/* Right: Logo */}
               <Link to="/" className="text-white text-[20px] sm:text-[22px] font-bold tracking-tight">
                 NextStep
               </Link>
@@ -128,7 +149,9 @@ const AuthPage = () => {
               {mobileContentRegister ? (
                 <>
                   <h2 className="text-white text-[22px] sm:text-[24px] font-medium leading-snug mb-3">
-                    "NextStep memberikan kejelasan terstruktur yang anda butuhkan untuk meningkatkan jalur karier anda."
+                    {language === 'id'
+                      ? '"NextStep memberikan kejelasan terstruktur yang anda butuhkan untuk meningkatkan jalur karier anda."'
+                      : '"NextStep gives you the structured clarity you need to advance your career path."'}
                   </h2>
                   <p className="text-white/60 text-[14px]">
                     © 2026 NextStep Capstone Project. All rights reserved.
@@ -137,12 +160,16 @@ const AuthPage = () => {
               ) : (
                 <>
                   <h2 className="text-white text-[28px] sm:text-[32px] font-bold leading-[1.15] mb-4">
-                    Majukan karier<br />Anda dengan<br />NexStep
+                    {language === 'id' ? (
+                      <>Majukan karier<br />Anda dengan<br />NexStep</>
+                    ) : (
+                      <>Advance your career<br />with NexStep</>
+                    )}
                   </h2>
                   <p className="text-white/60 text-[13px] sm:text-[14px] leading-relaxed max-w-[400px]">
-                    Bergabunglah dengan platform yang dirancang
-                    untuk menemukan rekomendasi pekerjaan anda sesuai
-                    tren kerja saat ini.
+                    {language === 'id'
+                      ? 'Bergabunglah dengan platform yang dirancang untuk menemukan rekomendasi pekerjaan anda sesuai tren kerja saat ini.'
+                      : 'Join the platform designed to match you with the best job opportunities based on current market trends.'}
                   </p>
                 </>
               )}
@@ -166,18 +193,22 @@ const AuthPage = () => {
           >
             {mobileContentRegister ? (
               <div className="animate-fade-in">
-                <h1 className="text-[26px] sm:text-[28px] font-bold text-[#001734] mb-2">Buat Akun</h1>
-                <p className="text-[#495057] text-[14px] mb-8 leading-relaxed">
-                  Mulailah perjalanan profesional Anda hari ini.
-                </p>
+                <h1 className="text-[26px] sm:text-[28px] font-bold text-[#001734] mb-2">
+                    {language === 'id' ? 'Buat Akun' : 'Create Account'}
+                  </h1>
+                  <p className="text-[#495057] text-[14px] mb-8 leading-relaxed">
+                    {language === 'id' ? 'Mulailah perjalanan profesional Anda hari ini.' : 'Start your professional journey today.'}
+                  </p>
                 <RegisterForm onSubmit={handleRegister} isLoading={isRegisterLoading} switchToLogin={() => switchMode(false)} />
               </div>
             ) : (
               <div className="animate-fade-in">
-                <h1 className="text-[26px] sm:text-[28px] font-bold text-[#001734] mb-2">Sign in</h1>
-                <p className="text-[#495057] text-[14px] mb-8 leading-relaxed">
-                  Masukkan kredensial Anda untuk mengakses akun Anda.
-                </p>
+                <h1 className="text-[26px] sm:text-[28px] font-bold text-[#001734] mb-2">
+                    {language === 'id' ? 'Masuk' : 'Sign In'}
+                  </h1>
+                  <p className="text-[#495057] text-[14px] mb-8 leading-relaxed">
+                    {language === 'id' ? 'Masukkan kredensial Anda untuk mengakses akun Anda.' : 'Enter your credentials to access your account.'}
+                  </p>
                 <LoginForm onSubmit={handleLogin} isLoading={isLoginLoading} switchToRegister={() => switchMode(true)} />
               </div>
             )}
@@ -211,6 +242,8 @@ const AuthPage = () => {
             <div className="relative z-10 flex flex-col flex-1 justify-between w-full p-12 pt-24 pb-12">
               {/* Header */}
               <div className="flex items-center justify-between">
+              {/* Left: Kembali + Language Toggle */}
+              <div className="flex items-center gap-4">
                 <Link
                   to={isRegister ? "/login" : "/"}
                   onClick={(e) => {
@@ -225,11 +258,28 @@ const AuthPage = () => {
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:-translate-x-0.5">
                     <path d="m15 18-6-6 6-6" />
                   </svg>
-                  <span className="text-[13px] font-medium">Kembali</span>
+                  <span className="text-[13px] font-medium">{language === 'id' ? 'Kembali' : 'Back'}</span>
                 </Link>
-                <Link to="/" className="text-white text-[20px] sm:text-[22px] font-bold tracking-tight">
-                  NextStep
-                </Link>
+
+                {/* Language toggle — desktop */}
+                <button
+                  onClick={toggleLanguage}
+                  className="flex items-center gap-1.5 text-white/70 hover:text-white transition-all"
+                  aria-label="Toggle language"
+                >
+                  <svg className="w-4.5 h-4.5" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="2" y1="12" x2="22" y2="12" />
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                  </svg>
+                  <span className="text-[12px] font-bold uppercase tracking-widest">{language}</span>
+                </button>
+              </div>
+
+              {/* Right: Logo */}
+              <Link to="/" className="text-white text-[20px] sm:text-[22px] font-bold tracking-tight">
+                NextStep
+              </Link>
               </div>
 
               {/* Content switches based on mode */}
@@ -248,12 +298,16 @@ const AuthPage = () => {
                   }}
                 >
                   <h2 className="text-white text-[38px] font-bold leading-[1.15] mb-5">
-                    Majukan karier<br />Anda dengan<br />NexStep
+                    {language === 'id' ? (
+                      <>Majukan karier<br />Anda dengan<br />NexStep</>
+                    ) : (
+                      <>Advance your career<br />with NexStep</>
+                    )}
                   </h2>
                   <p className="text-white/60 text-[14px] leading-relaxed max-w-[400px]">
-                    Bergabunglah dengan platform yang dirancang
-                    untuk menemukan rekomendasi pekerjaan anda sesuai
-                    tren kerja saat ini.
+                    {language === 'id'
+                      ? 'Bergabunglah dengan platform yang dirancang untuk menemukan rekomendasi pekerjaan anda sesuai tren kerja saat ini.'
+                      : 'Join the platform designed to match you with the best job opportunities based on current market trends.'}
                   </p>
                 </div>
 
@@ -271,7 +325,9 @@ const AuthPage = () => {
                   }}
                 >
                   <h2 className="text-white text-[28px] font-medium leading-snug mb-3">
-                    "NextStep memberikan kejelasan terstruktur yang anda butuhkan untuk meningkatkan jalur karier anda."
+                    {language === 'id'
+                      ? '"NextStep memberikan kejelasan terstruktur yang anda butuhkan untuk meningkatkan jalur karier anda."'
+                      : '"NextStep gives you the structured clarity you need to advance your career path."'}
                   </h2>
                   <p className="text-white/60 text-[14px]">
                     © 2026 NextStep Capstone Project. All rights reserved.
@@ -295,9 +351,11 @@ const AuthPage = () => {
                 pointerEvents: isRegister ? 'auto' : 'none',
               }}
             >
-              <h1 className="text-[32px] font-bold text-[#001734] mb-2">Buat Akun</h1>
+              <h1 className="text-[32px] font-bold text-[#001734] mb-2">
+                {language === 'id' ? 'Buat Akun' : 'Create Account'}
+              </h1>
               <p className="text-[#495057] text-[14px] mb-8 leading-relaxed">
-                Mulailah perjalanan profesional Anda hari ini.
+                {language === 'id' ? 'Mulailah perjalanan profesional Anda hari ini.' : 'Start your professional journey today.'}
               </p>
               <RegisterForm onSubmit={handleRegister} isLoading={isRegisterLoading} switchToLogin={() => switchMode(false)} />
             </div>
@@ -313,9 +371,11 @@ const AuthPage = () => {
                 pointerEvents: isRegister ? 'none' : 'auto',
               }}
             >
-              <h1 className="text-[32px] font-bold text-[#001734] mb-2">Sign in</h1>
+              <h1 className="text-[32px] font-bold text-[#001734] mb-2">
+                {language === 'id' ? 'Masuk' : 'Sign In'}
+              </h1>
               <p className="text-[#495057] text-[14px] mb-8 leading-relaxed">
-                Masukkan kredensial Anda untuk mengakses akun Anda.
+                {language === 'id' ? 'Masukkan kredensial Anda untuk mengakses akun Anda.' : 'Enter your credentials to access your account.'}
               </p>
               <LoginForm onSubmit={handleLogin} isLoading={isLoginLoading} switchToRegister={() => switchMode(true)} />
             </div>
