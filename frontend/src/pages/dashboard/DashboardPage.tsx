@@ -42,6 +42,15 @@ const PresetButton: React.FC<PresetButtonProps> = ({ preset, onSelect, language:
   const [imageError, setImageError] = useState(false);
   const index = preset.id.replace('preset', '');
 
+  const avatarImgs: Record<string, string> = {
+    '1': new URL('../../assets/avatar/cute1.png', import.meta.url).href,
+    '2': new URL('../../assets/avatar/cute2.png', import.meta.url).href,
+    '3': new URL('../../assets/avatar/cute3.png', import.meta.url).href,
+    '4': new URL('../../assets/avatar/cute4.png', import.meta.url).href,
+    '5': new URL('../../assets/avatar/cute5.png', import.meta.url).href,
+    '6': new URL('../../assets/avatar/cute6.png', import.meta.url).href,
+  };
+
   return (
     <button
       onClick={() => onSelect(preset.id)}
@@ -51,7 +60,7 @@ const PresetButton: React.FC<PresetButtonProps> = ({ preset, onSelect, language:
         <span className="text-3xl">{preset.icon}</span>
       ) : (
         <img 
-          src={`/src/assets/avatar/cute${index}.png`} 
+          src={avatarImgs[index]} 
           alt={preset.name} 
           onError={() => setImageError(true)}
           className="w-10 h-10 object-cover rounded-full border border-black/5"

@@ -334,6 +334,15 @@ export const UserAvatar: React.FC<{ name: string; size?: 'sm' | 'md' | 'lg' | 'x
     const presetId = saved; // 'preset1' - 'preset6'
     const index = presetId.replace('preset', '');
     
+    const avatarImgs: Record<string, string> = {
+      '1': new URL('../../assets/avatar/cute1.png', import.meta.url).href,
+      '2': new URL('../../assets/avatar/cute2.png', import.meta.url).href,
+      '3': new URL('../../assets/avatar/cute3.png', import.meta.url).href,
+      '4': new URL('../../assets/avatar/cute4.png', import.meta.url).href,
+      '5': new URL('../../assets/avatar/cute5.png', import.meta.url).href,
+      '6': new URL('../../assets/avatar/cute6.png', import.meta.url).href,
+    };
+    
     if (imageError) {
       return renderPresetSvg(presetId);
     }
@@ -341,7 +350,7 @@ export const UserAvatar: React.FC<{ name: string; size?: 'sm' | 'md' | 'lg' | 'x
     return (
       <div className={`${sizes[size]} rounded-full overflow-hidden border border-white/20 flex-shrink-0 flex items-center justify-center bg-white`}>
         <img 
-          src={`/src/assets/avatar/cute${index}.png`} 
+          src={avatarImgs[index]} 
           alt={name} 
           onError={() => setImageError(true)}
           className="w-full h-full object-cover rounded-full"
@@ -365,7 +374,7 @@ export const UserAvatar: React.FC<{ name: string; size?: 'sm' | 'md' | 'lg' | 'x
 
   // Fallback default: avatar inisial huruf nama
   return (
-    <div className={`${sizes[size]} rounded-full bg-[#001734]/10 text-[#001734] flex items-center justify-center font-bold flex-shrink-0 border border-[#001734]/15`}>
+    <div className={`${sizes[size]} rounded-full bg-white text-[#001734] flex items-center justify-center font-bold flex-shrink-0 border-2 border-white/40 shadow-sm`}>
       {initial}
     </div>
   );
