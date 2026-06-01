@@ -8,11 +8,12 @@
 //   3. BrowserRouter    — routing berbasis URL browser
 //
 // ROUTES:
-//   /           → HomePage
-//   /upload     → UploadPage (simulasi CV tanpa login)
-//   /login      → AuthPage (mode login)
-//   /register   → AuthPage (mode register)
-//   /dashboard  → DashboardPage (protected — redirect ke /login jika belum login)
+//   /                 → HomePage
+//   /upload           → UploadPage (simulasi CV tanpa login)
+//   /login            → AuthPage (mode login)
+//   /register         → AuthPage (mode register)
+//   /forgot-password  → AuthPage (mode lupa password — OTP 3-step flow)
+//   /dashboard        → DashboardPage (protected — redirect ke /login jika belum login)
 // ============================================================
 
 import { useState } from 'react'
@@ -55,6 +56,9 @@ function App() {
 
               {/* Dashboard — protected route, redirect ke /login jika belum login */}
               <Route path="/dashboard" element={<DashboardPage />} />
+
+              {/* Lupa Password */}
+              <Route path="/forgot-password" element={<AuthPage />} />
             </Routes>
           </BrowserRouter>
         </div>

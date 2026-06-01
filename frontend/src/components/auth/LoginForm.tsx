@@ -12,6 +12,7 @@ interface LoginFormProps {
   onSubmit: (data: LoginFormData) => void
   isLoading: boolean
   switchToRegister?: () => void
+  switchToForgotPassword?: () => void
 }
 
 interface FormErrors {
@@ -19,7 +20,7 @@ interface FormErrors {
   password: string
 }
 
-const LoginForm = ({ onSubmit, isLoading, switchToRegister }: LoginFormProps) => {
+const LoginForm = ({ onSubmit, isLoading, switchToRegister, switchToForgotPassword }: LoginFormProps) => {
   const { language } = useLanguage()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -128,12 +129,22 @@ const LoginForm = ({ onSubmit, isLoading, switchToRegister }: LoginFormProps) =>
           >
             Password
           </label>
-          <Link
-            to="/forgot-password"
-            className="text-[13px] font-medium text-[#001734] hover:text-[#002C59] transition-colors"
-          >
-            {language === 'id' ? 'Lupa Password?' : 'Forgot Password?'}
-          </Link>
+          {switchToForgotPassword ? (
+            <button
+              type="button"
+              onClick={switchToForgotPassword}
+              className="text-[13px] font-medium text-[#001734] hover:text-[#002C59] transition-colors cursor-pointer"
+            >
+              {language === 'id' ? 'Lupa Password?' : 'Forgot Password?'}
+            </button>
+          ) : (
+            <Link
+              to="/forgot-password"
+              className="text-[13px] font-medium text-[#001734] hover:text-[#002C59] transition-colors"
+            >
+              {language === 'id' ? 'Lupa Password?' : 'Forgot Password?'}
+            </Link>
+          )}
         </div>
         <div className="relative">
           <input

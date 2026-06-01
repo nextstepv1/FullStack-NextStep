@@ -31,7 +31,7 @@ NextStep adalah **mesin analitik karier proaktif** — bukan portal lowongan bia
 **Status saat ini:**
 | Layer | Status | Keterangan |
 |-------|--------|------------|
-| Frontend UI | ✅ Selesai | Semua halaman sudah dibuat, pakai mock data |
+| Frontend UI | ✅ Selesai | Semua halaman: Login, Register, Lupa Password (OTP), Dashboard, Upload CV — pakai mock data |
 | Backend API | 🔴 Perlu dibuat | Folder sudah ada, isi logic belum ada |
 | AI/ML Model | 🔴 Perlu dibuat | Endpoint `/predict` perlu dibuat tim AI |
 | Database | 🔴 Perlu dibuat | Schema belum dibuat |
@@ -116,9 +116,12 @@ FullStack-NextStep/
         │   ├── SplashPage.tsx       ← Animasi intro saat pertama buka (spiral + teks NextStep)
         │   ├── HomePage.tsx         ← Landing page utama (Hero + Features + Footer)
         │   ├── 📁 auth/
-        │   │   ├── AuthPage.tsx     ← Container halaman auth (Login & Register dalam 1 file)
-        │   │   ├── LoginPage.tsx    ← Halaman login (split layout, validasi, show/hide pw)
-        │   │   └── RegisterPage.tsx ← Halaman daftar (nama, email, password + konfirmasi)
+        │   │   ├── AuthPage.tsx     ← ⭐ Auth hub TERPUSAT (Login + Register + Lupa Password dalam 1 file)
+        │   │   │                       Routes: /login | /register | /forgot-password
+        │   │   │                       Fitur: vertical slide animation, OTP 6-digit, password strength meter
+        │   │   │                       Bilingual: ID/EN toggle
+        │   │   ├── LoginPage.tsx    ← (Legacy — tidak dipakai routing utama, bisa dihapus)
+        │   │   └── RegisterPage.tsx ← (Legacy — tidak dipakai routing utama, bisa dihapus)
         │   ├── 📁 cv/
         │   │   └── UploadPage.tsx   ← ⭐ Halaman upload CV + tampilkan hasil analisis AI
         │   │                           SAAT INI: pakai mock data
@@ -245,11 +248,20 @@ backend/middleware/
 
 #### Step 2 — Endpoint Auth (Prioritas Utama)
 ```
-POST  /api/auth/register   → Daftar akun baru
-POST  /api/auth/login      → Login, return JWT token
-POST  /api/auth/logout     → Invalidate token
-GET   /api/auth/me         → Profil user saat ini (butuh JWT)
+POST  /api/auth/register          → Daftar akun baru
+POST  /api/auth/login             → Login, return JWT token
+POST  /api/auth/logout            → Invalidate token
+GET   /api/auth/me                → Profil user saat ini (butuh JWT)
+
+--- Lupa Password (OTP via Email) ---
+POST  /api/auth/forgot-password   → Kirim OTP 6-digit ke email terdaftar
+POST  /api/auth/verify-otp        → Verifikasi kode OTP, return reset_token
+POST  /api/auth/reset-password    → Set password baru pakai reset_token
 ```
+
+> **Catatan Lupa Password**: Frontend sudah siap memanggil 3 endpoint ini secara berurutan.
+> Cari komentar `TODO (Backend)` di `frontend/src/pages/auth/AuthPage.tsx` untuk melihat
+> persis di mana dan dengan payload apa setiap endpoint dipanggil.
 
 #### Step 3 — Endpoint CV
 ```
@@ -399,8 +411,8 @@ Frontend juga mengonsumsi data tren pasar. Format yang diharapkan dari endpoint 
 > Ini adalah "perjanjian" format data antara Frontend ↔ Backend ↔ AI.
 > Semua tim **HARUS mengikuti format ini**. Jangan ubah nama field tanpa koordinasi.
 
-### Auth
-**Request Login:**
+### Auth — Login
+**Request:**
 ```json
 POST /api/auth/login
 { "email": "user@email.com", "password": "password123" }
@@ -422,6 +434,43 @@ POST /api/auth/login
 }
 ```
 
+### Auth — Lupa Password (OTP Flow)
+
+> Frontend memanggil 3 endpoint ini secara berurutan pada halaman `/forgot-password`.
+
+**Step 1 — Kirim OTP:**
+```json
+POST /api/auth/forgot-password
+{ "email": "user@email.com" }
+
+Response:
+{ "success": true, "message": "OTP dikirim ke email Anda." }
+```
+
+**Step 2 — Verifikasi OTP:**
+```json
+POST /api/auth/verify-otp
+{ "email": "user@email.com", "otp": "123456" }
+
+Response:
+{ "success": true, "data": { "reset_token": "<short-lived JWT atau UUID>" } }
+```
+
+**Step 3 — Reset Password:**
+```json
+POST /api/auth/reset-password
+{ "reset_token": "<dari step 2>", "new_password": "newPassword123" }
+
+Response:
+{ "success": true, "message": "Password berhasil diubah." }
+```
+
+> **Catatan OTP**:
+> - OTP harus 6 digit numerik
+> - OTP berlaku **5 menit** (setelah itu expired)
+> - `reset_token` dari Step 2 berlaku **15 menit** (single-use)
+> - Backend harus verifikasi email terdaftar di Step 1 (jika tidak ada, tetap return success untuk keamanan)
+
 ### Upload CV
 **Request:**
 ```
@@ -441,7 +490,7 @@ Authorization: Bearer <JWT token>
       "status": "success",
       "data_pelamar": { "skill_terdeteksi": ["JavaScript", "Python"] },
       "rekomendasi_utama_bidang": "Frontend Development",
-      "top_loker": [ ...daftar lowongan... ]
+      "top_loker": [ "...daftar lowongan..." ]
     }
   }
 }
@@ -452,12 +501,16 @@ Authorization: Bearer <JWT token>
 ## 8. Checklist Integrasi
 
 ### Untuk Tim Backend
-- [ ] Install: `bcryptjs jsonwebtoken multer express-validator`
+- [ ] Install: `bcryptjs jsonwebtoken multer express-validator nodemailer`
 - [ ] Buat `backend/.env` (salin dari `.env.example`)
 - [ ] Setup database (PostgreSQL / MongoDB)
 - [ ] Buat `middleware/authMiddleware.js`
 - [ ] Buat routes: `authRoutes.js`, `cvRoutes.js`
 - [ ] Buat controllers: `authController.js`, `cvController.js`
+- [ ] Implementasi OTP forgot password:
+  - `POST /api/auth/forgot-password` → generate OTP 6 digit, kirim via `nodemailer`
+  - `POST /api/auth/verify-otp` → verifikasi OTP, return `reset_token`
+  - `POST /api/auth/reset-password` → hash password baru, simpan ke DB
 - [ ] Test semua endpoint dengan Postman
 - [ ] Update CORS di `index.js` dengan domain production
 
