@@ -45,7 +45,6 @@ NextStep adalah **mesin analitik karier proaktif** — bukan portal lowongan bia
 FullStack-NextStep/
 │
 ├── 📄 README.md              ← File ini
-├── 📄 claude.md              ← Panduan teknis detail untuk semua tim (BACA INI!)
 ├── 📄 netlify.toml           ← Konfigurasi deploy frontend ke Netlify
 ├── 📄 .gitignore             ← File yang diabaikan Git
 │
@@ -553,7 +552,6 @@ Authorization: Bearer <JWT token>
 
 ## 📚 Dokumentasi Tambahan
 
-- **`claude.md`** — Panduan teknis lengkap (design system, security notes, deployment plan)
 - **`frontend/src/types/dashboard.ts`** — Semua interface TypeScript (kontrak data)
 - **`frontend/src/utils/mockData.ts`** — Mock data + komentar TODO untuk titik integrasi
 - **`backend/.env.example`** — Template environment variable backend
