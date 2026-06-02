@@ -1,7 +1,7 @@
-# NextStep - Readme.md Dibantu AI Agent Buat nya
+# NextStep 
 > **Platform analitik karier cerdas** — membantu pencari kerja memetakan relevansi CV mereka terhadap tren pasar kerja terkini.
 
-**Coding Camp 2026 × DBS Foundation | Team CC26-PSU117 | Deadline: 8 Juni 2026**
+**Coding Camp 2026 × DBS Foundation | Team CC26-PSU117 **
 
 ---
 
